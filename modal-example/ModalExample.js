@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, Dimensions } from 'react-native';
+import Modal from 'react-native-modal-component';
 
-import Modal from './src/ModalComponent';
 import Button from './Button';
 
 const { width, height } = Dimensions.get('window');
