@@ -9,6 +9,7 @@
     "babel-preset-es2016": "^6.22.0",
     "babel-preset-react-native": "^1.9.1",
     "react-native-animated-overlay": "^0.0.5",
+    "react-native-root-siblings": "^1.1.2",
     "react-native-toolbar-component": "^0.0.1"
   },
   "devDependencies": {

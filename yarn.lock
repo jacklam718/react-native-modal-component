@@ -1288,6 +1288,10 @@ react-native-animated-overlay@^0.0.5:
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/react-native-animated-overlay/-/react-native-animated-overlay-0.0.5.tgz#ae861501a18c9893f9fdb9d23ce51854e9ae9999"
 
+react-native-root-siblings@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/react-native-root-siblings/-/react-native-root-siblings-1.1.2.tgz#fc1e7310f4f9f8b080331ff5d173db840d6b9e1f"
+
 react-native-toolbar-component@^0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/react-native-toolbar-component/-/react-native-toolbar-component-0.0.1.tgz#ebc364925ba24aee869ca2d259b19c0ffbe3a3bd"
