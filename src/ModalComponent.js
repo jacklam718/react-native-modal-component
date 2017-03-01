@@ -44,10 +44,8 @@ type Props = {
   show?: boolean;
   navigatorStyle?: any;
   children?: any;
-  index?: number;
   foreground?: string;
-  modals: Array<ReactElement>;
-  modalChange?: () => void;
+  content?: any;
   showPageControl?: boolean;
   leftItem?: Object;
   rightItem?: Object;
@@ -60,10 +58,8 @@ const defaultProps = {
   navigatorStyle: null,
   show: null,
   children: null,
-  index: 0,
   foreground: 'dark',
-  modals: [],
-  modalChange: () => {},
+  content: null,
   showPageControl: true,
   leftItem: null,
   rightItem: null,
@@ -79,7 +75,6 @@ class ModalComponent extends Component {
 
     this.state = {
       show: null,
-      index: props.index,
     };
   }
 
@@ -94,12 +89,8 @@ class ModalComponent extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.index !== nextProps.index) {
-      this.setState({ index: nextProps.index });
-    }
-
     if (this.props.show !== nextProps.show) {
-      this.setState({ show: nextProps.show, routeIndex: nextProps.index });
+      this.setState({ show: nextProps.show });
 
       if (nextProps.show) {
         this.show();
@@ -138,28 +129,8 @@ class ModalComponent extends Component {
     this.props.onDismiss();
   }
 
-  next = (callback?: Function = () => {}): void => {
-    const routeIndex = (this.state.index < this.props.modals.length - 1)
-      ? (this.state.index + 1)
-      : this.state.index;
-
-    this.navigator.push({ show: true, routeIndex });
-    callback(this.state.index);
-    this.props.modalChange(this.state.index);
-  }
-
-  previous = (callback?: Function = () => {}): void => {
-    this.navigator.pop();
-    callback(this.state.index);
-    this.props.modalChange(this.state.index);
-  }
-
-  configureScene = (route, routeStack): Object => {
+  configureScene = (): Object => {
     const { children } = this.props;
-
-    if (route.show && routeStack && routeStack.length > 2) {
-      return Navigator.SceneConfigs.PushFromRight;
-    }
 
     if (children) {
       return Navigator.SceneConfigs.FloatFromBottom;
@@ -168,12 +139,12 @@ class ModalComponent extends Component {
     return { ...Navigator.SceneConfigs.FloatFromBottom, gestures: {} };
   }
 
-  renderScene = ({ show, routeIndex }) => {
+  renderScene = ({ show }) => {
     if (show) {
       let { leftItem, rightItem } = this.props;
       const { showPageControl, foreground } = this.props;
 
-      leftItem = (showPageControl && !leftItem && routeIndex > 0) ? {
+      leftItem = (showPageControl && !leftItem) ? {
         title: 'title',
         icon: foreground === 'dark' ? backIconWhite : backIcon,
         layout: 'icon',
@@ -182,7 +153,7 @@ class ModalComponent extends Component {
         },
       } : leftItem;
 
-      rightItem = (showPageControl && !rightItem && routeIndex < this.props.modals.length - 1) ? {
+      rightItem = (showPageControl && !rightItem) ? {
         title: 'title',
         icon: foreground === 'dark' ? forwardIconWhite : forwardIcon,
         layout: 'icon',
@@ -198,7 +169,7 @@ class ModalComponent extends Component {
           leftItem={leftItem}
           rightItem={rightItem}
         >
-          {this.props.modals[routeIndex]}
+          {this.props.content}
         </Modal>
       );
     }
@@ -219,6 +190,7 @@ class ModalComponent extends Component {
 
   render() {
     const { navigatorStyle, children } = this.props;
+    const pointerEvents = this.state.show ? 'auto' : 'none';
 
     let containerStyleForNoChildren = null;
     let navigatorForNoChildren = null;
@@ -238,7 +210,7 @@ class ModalComponent extends Component {
     }
 
     return (
-      <View style={[styles.container, containerStyleForNoChildren]} pointerEvents="auto">
+      <View style={[styles.container, containerStyleForNoChildren]} pointerEvents={pointerEvents}>
         {animatedOverlay}
         <Navigator
           ref={(navigator) => { this.navigator = navigator; }}
