@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, Dimensions } from 'react-native';
-import Modal from 'react-native-modal-component';
+// import Modal from 'react-native-modal-component';
+import ModalComponent from './src';
 
 import Button from './Button';
 
@@ -21,39 +22,34 @@ export default class ModalExample extends Component {
     this.modal.dismiss();
   }
 
-  renderModals() {
-    const modals = [];
-    for (let i = 0; i < 5; i += 1) {
-      modals.push(
-        <View index={i} style={{ flex: 1, justifyContent: 'center', padding: 20, backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
-          <View style={{ padding: 30, backgroundColor: '#fff', height: undefined, width: undefined }}>
-            <Text style={{ color: '#000' }}>
-              to save sessions to{'\n'}your schedule. index - {i}
-            </Text>
-          </View>
-        </View>,
-      );
-    }
-    return modals;
+  renderModal() {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', padding: 20, backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
+        <View style={{ padding: 30, backgroundColor: '#fff', height: undefined, width: undefined }}>
+          <Text style={{ color: '#000' }}>
+            to save sessions to{'\n'}your schedule.
+          </Text>
+        </View>
+      </View>
+    );
   }
 
   render() {
     return (
       <View style={{ flex: 1 }}>
-        <Modal
+        <View style={{ flex: 1, backgroundColor: 'white', justifyContent: 'center', padding: 20 }}>
+          <Button text="Show Modal" onPress={this.showModal} />
+        </View>
+        <ModalComponent
           ref={(modal) => { this.modal = modal; }}
-          modals={this.renderModals()}
-          index={0}
-          leftItem={{
-            title: 'CLOSE',
-            layout: 'title',
-            onPress: this.dismissModal,
-          }}
-        >
-          <View style={{ flex: 1, backgroundColor: 'white', justifyContent: 'center', padding: 20 }}>
-            <Button text="Show Modal" onPress={this.showModal} />
-          </View>
-        </Modal>
+          showCloseButton
+          content={this.renderModal()}
+          // leftItem={{
+          //   title: 'CLOSE',
+          //   layout: 'title',
+          //   onPress: this.dismissModal,
+          // }}
+        />
       </View>
     );
   }
