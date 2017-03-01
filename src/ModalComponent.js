@@ -9,12 +9,6 @@ import Modal from './components/Modal';
 const HARDWARE_BACK_PRESS_EVENT: string = 'hardwareBackPress';
 const { width: WIDTH, height: HEIGHT } = Dimensions.get('window');
 
-const backIcon = require('./img/back.png');
-const backIconWhite = require('./img/back_white.png');
-
-const forwardIcon = require('./img/forward.png');
-const forwardIconWhite = require('./img/forward_white.png');
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -44,9 +38,9 @@ type Props = {
   show?: boolean;
   navigatorStyle?: any;
   children?: any;
-  foreground?: string;
   content?: any;
-  showPageControl?: boolean;
+  showCloseButton?: boolean;
+  closeButtonAlign?: 'left' | 'right';
   leftItem?: Object;
   rightItem?: Object;
 }
@@ -60,7 +54,8 @@ const defaultProps = {
   children: null,
   foreground: 'dark',
   content: null,
-  showPageControl: true,
+  showCloseButton: false,
+  closeButtonAlign: 'left',
   leftItem: null,
   rightItem: null,
 };
@@ -129,7 +124,7 @@ class ModalComponent extends Component {
     this.props.onDismiss();
   }
 
-  configureScene = (): Object => {
+  configureScene = (route, routeStack): Object => {
     const { children } = this.props;
 
     if (children) {
@@ -142,26 +137,26 @@ class ModalComponent extends Component {
   renderScene = ({ show }) => {
     if (show) {
       let { leftItem, rightItem } = this.props;
-      const { showPageControl, foreground } = this.props;
+      const { showCloseButton, closeButtonAlign } = this.props;
 
-      leftItem = (showPageControl && !leftItem) ? {
-        title: 'title',
-        icon: foreground === 'dark' ? backIconWhite : backIcon,
+      leftItem = leftItem || (showCloseButton && closeButtonAlign === 'left') && {
+        title: 'close',
         layout: 'icon',
+        icon: require('./img/x-white.png'),
         onPress: () => {
-          this.previous();
+          this.dismiss();
         },
-      } : leftItem;
+      };
 
-      rightItem = (showPageControl && !rightItem) ? {
-        title: 'title',
-        icon: foreground === 'dark' ? forwardIconWhite : forwardIcon,
+
+      rightItem = rightItem || (showCloseButton && closeButtonAlign === 'right') && {
+        title: 'close',
         layout: 'icon',
+        icon: require('./img/x-white.png'),
         onPress: () => {
-          this.next();
+          this.dismiss();
         },
-      } : rightItem;
-
+      };
 
       return (
         <Modal
@@ -190,11 +185,14 @@ class ModalComponent extends Component {
 
   render() {
     const { navigatorStyle, children } = this.props;
-    const pointerEvents = this.state.show ? 'auto' : 'none';
 
     let containerStyleForNoChildren = null;
     let navigatorForNoChildren = null;
     let animatedOverlay = null;
+
+    // const pointerEvents = this.state.show && children ? 'auto' : 'none';
+
+    const pointerEvents = this.state.show || children ? 'auto' : 'none';
 
     if (!children) {
       containerStyleForNoChildren = styles.containerForNoChildren;
