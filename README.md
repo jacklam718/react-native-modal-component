@@ -3,6 +3,10 @@ React Native Modal Component for iOS & Android.
 
 Pull request are welcomed. Please follow the Airbnb style guide [Airbnb JavaScript](https://github.com/airbnb/javascript)
 
+[Try it with Exponent](https://exp.host/@jacklam718/modal-example)
+
+<img src="https://raw.githubusercontent.com/jacklam718/react-native-modal-component/master/.github/modal-demo.png" width="250">
+
 
 ## Installation
 ##### yarn
@@ -51,7 +55,7 @@ ModalManager.show(options, () => {
 });
 ```
 
-##### update
+##### Update
 ```javascript
 ModalManager.update(options, () => {
   console.log('callback');
@@ -74,6 +78,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { ModalComponent } from 'react-native-modal-component';
 ```
 
+##### Modal content
 ```javascript
 const content = (
   <View style={{ flex: 1, justifyContent: 'center', padding: 20, backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
@@ -103,11 +108,7 @@ const content = (
   }}
 >
   <View style={{ flex: 1, backgroundColor: 'white' }}>
-    <TouchableOpacity
-      onPress={() => {
-        this.modal.show();
-      }}
-    >
+    <TouchableOpacity onPress={() => { this.modal.show(); }} >
       <Text>Show Modal</Text>
     </TouchableOpacity>
   </View>
