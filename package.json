@@ -5,6 +5,19 @@
   "repository": "git@github.com:jacklam718/react-native-modal-component.git",
   "author": "Jack Lam <jacklam718@gmail.com>",
   "license": "MIT",
+  "keywords": [
+    "react modal",
+    "react-native",
+    "react-native-modal-component",
+    "react-native-modal",
+    "react native modal",
+    "modal",
+    "component",
+    "react-component",
+    "react-native-component",
+    "ios",
+    "android"
+  ],
   "dependencies": {
     "babel-preset-es2016": "^6.22.0",
     "babel-preset-react-native": "^1.9.1",
