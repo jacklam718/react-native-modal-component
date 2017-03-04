@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, Dimensions } from 'react-native';
-// import Modal from 'react-native-modal-component';
-import ModalComponent from './src';
+import { ModalComponent } from 'react-native-modal-component';
 
 import Button from './Button';
 
@@ -12,6 +11,7 @@ export default class ModalExample extends Component {
     super(props);
 
     this.showModal = this.showModal.bind(this);
+    this.dismissModal = this.dismissModal.bind(this);
   }
 
   showModal = () => {
@@ -22,12 +22,12 @@ export default class ModalExample extends Component {
     this.modal.dismiss();
   }
 
-  renderModal() {
+  renderModalContent() {
     return (
       <View style={{ flex: 1, justifyContent: 'center', padding: 20, backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
         <View style={{ padding: 30, backgroundColor: '#fff', height: undefined, width: undefined }}>
           <Text style={{ color: '#000' }}>
-            to save sessions to{'\n'}your schedule.
+            React Native Modal Component
           </Text>
         </View>
       </View>
@@ -36,21 +36,11 @@ export default class ModalExample extends Component {
 
   render() {
     return (
-      <View style={{ flex: 1 }}>
-        <View style={{ flex: 1, backgroundColor: 'white', justifyContent: 'center', padding: 20 }}>
+      <ModalComponent ref={(modal) => { this.modal = modal; }} content={this.renderModalContent()}>
+        <View style={{ flex: 1, justifyContent: 'center', padding: 20, backgroundColor: 'white' }}>
           <Button text="Show Modal" onPress={this.showModal} />
         </View>
-        <ModalComponent
-          ref={(modal) => { this.modal = modal; }}
-          showCloseButton
-          content={this.renderModal()}
-          // leftItem={{
-          //   title: 'CLOSE',
-          //   layout: 'title',
-          //   onPress: this.dismissModal,
-          // }}
-        />
-      </View>
+      </ModalComponent>
     );
   }
 }
