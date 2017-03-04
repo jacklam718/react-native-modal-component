@@ -6,14 +6,10 @@ import AnimatedOverlay from 'react-native-animated-overlay';
 
 import Modal from './components/Modal';
 
+const closeIcon = require('./img/x-white.png');
+
 const HARDWARE_BACK_PRESS_EVENT: string = 'hardwareBackPress';
 const { width: WIDTH, height: HEIGHT } = Dimensions.get('window');
-
-const backIcon = require('./img/back.png');
-const backIconWhite = require('./img/back_white.png');
-
-const forwardIcon = require('./img/forward.png');
-const forwardIconWhite = require('./img/forward_white.png');
 
 const styles = StyleSheet.create({
   container: {
@@ -43,12 +39,11 @@ type Props = {
   dismissOnHardwareBackPress?: boolean;
   show?: boolean;
   navigatorStyle?: any;
+  modalStyle?: any;
   children?: any;
-  index?: number;
-  foreground?: string;
-  modals: Array<ReactElement>;
-  modalChange?: () => void;
-  showPageControl?: boolean;
+  content?: any;
+  showCloseButton?: boolean;
+  closeButtonAlign?: 'left' | 'right';
   leftItem?: Object;
   rightItem?: Object;
 }
@@ -58,13 +53,13 @@ const defaultProps = {
   onDismiss: () => {},
   dismissOnHardwareBackPress: true,
   navigatorStyle: null,
+  modalStyle: null,
   show: null,
   children: null,
-  index: 0,
   foreground: 'dark',
-  modals: [],
-  modalChange: () => {},
-  showPageControl: true,
+  content: null,
+  showCloseButton: false,
+  closeButtonAlign: 'left',
   leftItem: null,
   rightItem: null,
 };
@@ -79,7 +74,6 @@ class ModalComponent extends Component {
 
     this.state = {
       show: null,
-      index: props.index,
     };
   }
 
@@ -94,12 +88,8 @@ class ModalComponent extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.index !== nextProps.index) {
-      this.setState({ index: nextProps.index });
-    }
-
     if (this.props.show !== nextProps.show) {
-      this.setState({ show: nextProps.show, routeIndex: nextProps.index });
+      this.setState({ show: nextProps.show });
 
       if (nextProps.show) {
         this.show();
@@ -138,28 +128,8 @@ class ModalComponent extends Component {
     this.props.onDismiss();
   }
 
-  next = (callback?: Function = () => {}): void => {
-    const routeIndex = (this.state.index < this.props.modals.length - 1)
-      ? (this.state.index + 1)
-      : this.state.index;
-
-    this.navigator.push({ show: true, routeIndex });
-    callback(this.state.index);
-    this.props.modalChange(this.state.index);
-  }
-
-  previous = (callback?: Function = () => {}): void => {
-    this.navigator.pop();
-    callback(this.state.index);
-    this.props.modalChange(this.state.index);
-  }
-
-  configureScene = (route, routeStack): Object => {
+  configureScene = (): Object => {
     const { children } = this.props;
-
-    if (route.show && routeStack && routeStack.length > 2) {
-      return Navigator.SceneConfigs.PushFromRight;
-    }
 
     if (children) {
       return Navigator.SceneConfigs.FloatFromBottom;
@@ -168,37 +138,38 @@ class ModalComponent extends Component {
     return { ...Navigator.SceneConfigs.FloatFromBottom, gestures: {} };
   }
 
-  renderScene = ({ show, routeIndex }) => {
+  renderScene = ({ show }) => {
     if (show) {
       let { leftItem, rightItem } = this.props;
-      const { showPageControl, foreground } = this.props;
+      const { showCloseButton, closeButtonAlign, modalStyle } = this.props;
 
-      leftItem = (showPageControl && !leftItem && routeIndex > 0) ? {
-        title: 'title',
-        icon: foreground === 'dark' ? backIconWhite : backIcon,
+      leftItem = leftItem || (showCloseButton && closeButtonAlign === 'left') ? {
+        title: 'close',
         layout: 'icon',
+        icon: closeIcon,
         onPress: () => {
-          this.previous();
+          this.dismiss();
         },
-      } : leftItem;
+      } : null;
 
-      rightItem = (showPageControl && !rightItem && routeIndex < this.props.modals.length - 1) ? {
-        title: 'title',
-        icon: foreground === 'dark' ? forwardIconWhite : forwardIcon,
+
+      rightItem = rightItem || (showCloseButton && closeButtonAlign === 'right') ? {
+        title: 'close',
         layout: 'icon',
+        icon: closeIcon,
         onPress: () => {
-          this.next();
+          this.dismiss();
         },
-      } : rightItem;
-
+      } : null;
 
       return (
         <Modal
           {...this.props}
+          style={modalStyle}
           leftItem={leftItem}
           rightItem={rightItem}
         >
-          {this.props.modals[routeIndex]}
+          {this.props.content}
         </Modal>
       );
     }
@@ -219,6 +190,7 @@ class ModalComponent extends Component {
 
   render() {
     const { navigatorStyle, children } = this.props;
+    const pointerEvents = this.state.show || children ? 'auto' : 'none';
 
     let containerStyleForNoChildren = null;
     let navigatorForNoChildren = null;
@@ -238,7 +210,7 @@ class ModalComponent extends Component {
     }
 
     return (
-      <View style={[styles.container, containerStyleForNoChildren]} pointerEvents="auto">
+      <View style={[styles.container, containerStyleForNoChildren]} pointerEvents={pointerEvents}>
         {animatedOverlay}
         <Navigator
           ref={(navigator) => { this.navigator = navigator; }}

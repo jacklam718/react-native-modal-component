@@ -8,6 +8,7 @@ import Toolbar from 'react-native-toolbar-component';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: 'black',
   },
   title: {
     color: 'white',
@@ -50,10 +51,6 @@ class Modal extends Component {
   props: Props
 
   renderHeader() {
-    if (this.props.header) {
-      return this.props.header;
-    }
-
     const {
       leftItem,
       rightItem,
@@ -63,7 +60,16 @@ class Modal extends Component {
       subTitleStyle,
       headerContentStyle,
       titleContentStyle,
+      header,
     } = this.props;
+
+    if (header) {
+      return header;
+    }
+
+    if (!leftItem && !rightItem && !title && !subTitle) {
+      return null;
+    }
 
     return (
       <Toolbar
