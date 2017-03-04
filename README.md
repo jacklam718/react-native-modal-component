@@ -5,8 +5,9 @@ Pull request are welcomed. Please follow the Airbnb style guide [Airbnb JavaScri
 
 [Try it with Exponent](https://exp.host/@jacklam718/modal-example)
 
-<img src="https://raw.githubusercontent.com/jacklam718/react-native-modal-component/master/.github/modal-demo.png" width="250">
+<!-- <img src="https://raw.githubusercontent.com/jacklam718/react-native-modal-component/master/.github/modal-demo.png" width="250"> -->
 
+<img src="https://raw.githubusercontent.com/jacklam718/react-native-modal-component/master/.github/modal-demo.gif" width="250">
 
 ## Installation
 ##### yarn
