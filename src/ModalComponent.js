@@ -6,6 +6,8 @@ import AnimatedOverlay from 'react-native-animated-overlay';
 
 import Modal from './components/Modal';
 
+const closeIcon = require('./img/x-white.png');
+
 const HARDWARE_BACK_PRESS_EVENT: string = 'hardwareBackPress';
 const { width: WIDTH, height: HEIGHT } = Dimensions.get('window');
 
@@ -37,6 +39,7 @@ type Props = {
   dismissOnHardwareBackPress?: boolean;
   show?: boolean;
   navigatorStyle?: any;
+  modalStyle?: any;
   children?: any;
   content?: any;
   showCloseButton?: boolean;
@@ -50,6 +53,7 @@ const defaultProps = {
   onDismiss: () => {},
   dismissOnHardwareBackPress: true,
   navigatorStyle: null,
+  modalStyle: null,
   show: null,
   children: null,
   foreground: 'dark',
@@ -124,7 +128,7 @@ class ModalComponent extends Component {
     this.props.onDismiss();
   }
 
-  configureScene = (route, routeStack): Object => {
+  configureScene = (): Object => {
     const { children } = this.props;
 
     if (children) {
@@ -137,30 +141,31 @@ class ModalComponent extends Component {
   renderScene = ({ show }) => {
     if (show) {
       let { leftItem, rightItem } = this.props;
-      const { showCloseButton, closeButtonAlign } = this.props;
+      const { showCloseButton, closeButtonAlign, modalStyle } = this.props;
 
-      leftItem = leftItem || (showCloseButton && closeButtonAlign === 'left') && {
+      leftItem = leftItem || (showCloseButton && closeButtonAlign === 'left') ? {
         title: 'close',
         layout: 'icon',
-        icon: require('./img/x-white.png'),
+        icon: closeIcon,
         onPress: () => {
           this.dismiss();
         },
-      };
+      } : null;
 
 
-      rightItem = rightItem || (showCloseButton && closeButtonAlign === 'right') && {
+      rightItem = rightItem || (showCloseButton && closeButtonAlign === 'right') ? {
         title: 'close',
         layout: 'icon',
-        icon: require('./img/x-white.png'),
+        icon: closeIcon,
         onPress: () => {
           this.dismiss();
         },
-      };
+      } : null;
 
       return (
         <Modal
           {...this.props}
+          style={modalStyle}
           leftItem={leftItem}
           rightItem={rightItem}
         >
@@ -185,14 +190,11 @@ class ModalComponent extends Component {
 
   render() {
     const { navigatorStyle, children } = this.props;
+    const pointerEvents = this.state.show || children ? 'auto' : 'none';
 
     let containerStyleForNoChildren = null;
     let navigatorForNoChildren = null;
     let animatedOverlay = null;
-
-    // const pointerEvents = this.state.show && children ? 'auto' : 'none';
-
-    const pointerEvents = this.state.show || children ? 'auto' : 'none';
 
     if (!children) {
       containerStyleForNoChildren = styles.containerForNoChildren;
