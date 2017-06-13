@@ -20,15 +20,16 @@
   ],
   "scripts": {
     "clean": "rimraf dist",
-    "build": "npm run clean && babel src/ -d dist/"
+    "build": "npm run clean && babel src/ -d dist/ && copyfiles -f src/img/* dist/img"
   },
   "dependencies": {
     "react-native-toolbar-component": "^0.0.1"
   },
   "devDependencies": {
+    "babel-eslint": "^7.1.1",
     "babel-preset-es2016": "^6.24.1",
     "babel-preset-react-native": "^1.9.2",
-    "babel-eslint": "^7.1.1",
+    "copyfiles": "^1.2.0",
     "eslint": "^3.16.1",
     "eslint-config-airbnb": "^14.1.0",
     "eslint-plugin-import": "^2.2.0",

@@ -1,10 +1,10 @@
 {
   "exponentServerPort": null,
-  "packagerPort": 19002,
-  "packagerPid": 66685,
+  "packagerPort": 19001,
+  "packagerPid": 67214,
   "exponentServerNgrokUrl": null,
   "packagerNgrokUrl": "https://packager.hb-bse.jacklam718.modal-example.exp.direct",
-  "ngrokPid": 66703,
+  "ngrokPid": 67256,
   "expoServerPort": 19000,
   "expoServerNgrokUrl": "https://hb-bse.jacklam718.modal-example.exp.direct"
 }
