@@ -1,6 +1,10 @@
 {
-  "presets": [
-    "es2016",
-    "react-native"
-  ]
+  "env": {
+    "development": {
+      "presets": [
+        "es2016",
+        "react-native"
+      ]
+    }
+  }
 }
