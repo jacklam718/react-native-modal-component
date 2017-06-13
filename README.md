@@ -16,67 +16,10 @@ Pull request are welcomed. Please follow the Airbnb style guide [Airbnb JavaScri
 `npm install --save react-native-modal-component`
 
 
-## Usage with ModalManager
-```javascript
-import ModalManager from 'react-native-modal-component';
-```
-
-##### Options
-```javascript
-const options = {
-  title: 'Title',
-  subTitle: 'Sub Title',
-  dismissOnHardwareBackPress: true, // for Android
-  showCloseButton: false,
-  content: (
-    <View style={{ flex: 1, justifyContent: 'center', padding: 20, backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
-      <View style={{ padding: 30, backgroundColor: '#fff', height: undefined, width: undefined }}>
-        <Text style={{ color: '#000' }}>
-          React Native Modal Component{'\n'}
-        </Text>
-      </View>
-    </View>
-  ),
-  leftItem: {
-    title: 'CLOSE',
-    layout: 'title',
-    onPress: () => {
-      ModalManager.dismiss(() => {
-        console.log('callback');
-      });
-    },
-  },
-}
-```
-
-##### Show
-```javascript
-ModalManager.show(options, () => {
-  console.log('callback');
-});
-```
-
-##### Update
-```javascript
-ModalManager.update(options, () => {
-  console.log('callback');
-})
-```
-
-##### Dismiss
-```javascript
-ModalManager.dismiss(() => {
-  console.log('callback');
-})
-```
-
-
-<br>
-
 ## Usage with ModalComponent
 ```javascript
 import { View, Text, TouchableOpacity } from 'react-native';
-import { ModalComponent } from 'react-native-modal-component';
+import ModalComponent from 'react-native-modal-component';
 ```
 
 ##### Modal content

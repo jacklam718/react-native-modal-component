@@ -1,28 +1,29 @@
 // @flow
 
-import React, { Component, type ReactElement } from 'react';
-import { View, Navigator, StyleSheet, Dimensions, BackAndroid } from 'react-native';
-import AnimatedOverlay from 'react-native-animated-overlay';
+import React, { Component } from 'react';
+import {
+  View,
+  Navigator,
+  StyleSheet,
+  BackAndroid as RNBackAndroid,
+  BackHandler as RNBackHandler,
+} from 'react-native';
+import Toolbar from 'react-native-toolbar-component';
 
-import Modal from './components/Modal';
-
+const BackHandler = RNBackHandler || RNBackAndroid;
 const closeIcon = require('./img/x-white.png');
 
 const HARDWARE_BACK_PRESS_EVENT: string = 'hardwareBackPress';
-const { width: WIDTH, height: HEIGHT } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
-  container: {
+  content: {
     flex: 1,
+    backgroundColor: 'black',
   },
-  containerForNoChildren: {
-    flex: 1,
-    position: 'absolute',
-    width: WIDTH,
-    height: HEIGHT,
-  },
-  navigatorForNoChildren: {
-    backgroundColor: 'transparent',
+  title: {
+    color: 'white',
+    fontSize: 12,
+    textAlign: 'center',
   },
   navigator: {
     flex: 1,
@@ -37,9 +38,11 @@ type Props = {
   onShow?: () => void;
   onDismiss?: () => void;
   dismissOnHardwareBackPress?: boolean;
+  title? :any;
   show?: boolean;
   navigatorStyle?: any;
   modalStyle?: any;
+  toolbarStyle?: any;
   children?: any;
   content?: any;
   showCloseButton?: boolean;
@@ -52,8 +55,10 @@ const defaultProps = {
   onShow: () => {},
   onDismiss: () => {},
   dismissOnHardwareBackPress: true,
+  title: null,
   navigatorStyle: null,
   modalStyle: null,
+  toolbarStyle: null,
   show: null,
   children: null,
   foreground: 'dark',
@@ -84,7 +89,7 @@ class ModalComponent extends Component {
       this.show();
     }
 
-    BackAndroid.addEventListener(HARDWARE_BACK_PRESS_EVENT, this.hardwareBackPressHandler);
+    BackHandler.addEventListener(HARDWARE_BACK_PRESS_EVENT, this.hardwareBackPressHandler);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -100,7 +105,7 @@ class ModalComponent extends Component {
   }
 
   componentWillUnmount() {
-    BackAndroid.removeEventListener(HARDWARE_BACK_PRESS_EVENT);
+    BackHandler.removeEventListener(HARDWARE_BACK_PRESS_EVENT);
   }
 
   hardwareBackPressHandler = (): boolean => {
@@ -141,7 +146,14 @@ class ModalComponent extends Component {
   renderScene = ({ show }) => {
     if (show) {
       let { leftItem, rightItem } = this.props;
-      const { showCloseButton, closeButtonAlign, modalStyle } = this.props;
+      const {
+        showCloseButton,
+        closeButtonAlign,
+        modalStyle,
+        toolbarStyle,
+        title,
+        content,
+      } = this.props;
 
       leftItem = leftItem || (showCloseButton && closeButtonAlign === 'left') ? {
         title: 'close',
@@ -151,7 +163,6 @@ class ModalComponent extends Component {
           this.dismiss();
         },
       } : null;
-
 
       rightItem = rightItem || (showCloseButton && closeButtonAlign === 'right') ? {
         title: 'close',
@@ -163,14 +174,16 @@ class ModalComponent extends Component {
       } : null;
 
       return (
-        <Modal
-          {...this.props}
-          style={modalStyle}
-          leftItem={leftItem}
-          rightItem={rightItem}
-        >
-          {this.props.content}
-        </Modal>
+        <View style={[styles.content, modalStyle]}>
+          <Toolbar
+            style={[styles.header, toolbarStyle]}
+            title={title}
+            leftItem={leftItem}
+            rightItem={rightItem}
+          />
+
+          {content}
+        </View>
       );
     }
 
@@ -178,48 +191,20 @@ class ModalComponent extends Component {
       return this.props.children;
     }
 
-    return (
-      <AnimatedOverlay
-        overlayShow={this.state.show}
-        pointerEvents="auto"
-        opacity={0.5}
-        duration={500}
-      />
-    );
+    return null;
   }
 
   render() {
-    const { navigatorStyle, children } = this.props;
-    const pointerEvents = this.state.show || children ? 'auto' : 'none';
-
-    let containerStyleForNoChildren = null;
-    let navigatorForNoChildren = null;
-    let animatedOverlay = null;
-
-    if (!children) {
-      containerStyleForNoChildren = styles.containerForNoChildren;
-      navigatorForNoChildren = styles.navigatorForNoChildren;
-      animatedOverlay = (
-        <AnimatedOverlay
-          overlayShow={this.state.show}
-          opacity={1}
-          duration={500}
-          pointerEvents="auto"
-        />
-      );
-    }
+    const { navigatorStyle } = this.props;
 
     return (
-      <View style={[styles.container, containerStyleForNoChildren]} pointerEvents={pointerEvents}>
-        {animatedOverlay}
-        <Navigator
-          ref={(navigator) => { this.navigator = navigator; }}
-          initialRoute={{ show: null }}
-          configureScene={this.configureScene}
-          renderScene={this.renderScene}
-          style={[styles.navigator, navigatorForNoChildren, navigatorStyle]}
-        />
-      </View>
+      <Navigator
+        ref={(navigator) => { this.navigator = navigator; }}
+        initialRoute={{ show: null }}
+        configureScene={this.configureScene}
+        renderScene={this.renderScene}
+        style={[styles.navigator, navigatorStyle]}
+      />
     );
   }
 }
