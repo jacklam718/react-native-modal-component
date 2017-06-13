@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import ModalComponent from './src';
+import ModalComponent from 'react-native-modal-component';
 
 import Button from './Button';
 
@@ -23,6 +23,7 @@ export default class ModalExample extends Component {
     super(props);
 
     this.showModal = this.showModal.bind(this);
+    this.dismissModal = this.dismissModal.bind(this);
   }
 
   showModal = () => {
@@ -33,12 +34,12 @@ export default class ModalExample extends Component {
     this.modal.dismiss();
   }
 
-  renderModal() {
+  renderModalContent() {
     return (
       <View style={styles.container}>
         <View style={styles.content}>
           <Text style={{ color: '#000' }}>
-            to save sessions to{'\n'}your schedule.
+            React Native Modal Component
           </Text>
         </View>
       </View>
