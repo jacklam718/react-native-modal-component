@@ -52,7 +52,7 @@ export default class ModalExample extends Component {
         ref={(modal) => { this.modal = modal; }}
         title="Title"
         showCloseButton
-        content={this.renderModal()}
+        content={this.renderModalContent()}
         leftItem={{
           title: 'CLOSE',
           layout: 'title',
