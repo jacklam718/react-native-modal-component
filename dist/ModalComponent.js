@@ -7,7 +7,7 @@ var _reactNative=require('react-native');
 
 
 
-
+var _reactNativeDeprecatedCustomComponents=require('react-native-deprecated-custom-components');
 var _reactNativeToolbarComponent=require('react-native-toolbar-component');var _reactNativeToolbarComponent2=_interopRequireDefault(_reactNativeToolbarComponent);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError("Cannot call a class as a function");}}function _possibleConstructorReturn(self,call){if(!self){throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call&&(typeof call==="object"||typeof call==="function")?call:self;}function _inherits(subClass,superClass){if(typeof superClass!=="function"&&superClass!==null){throw new TypeError("Super expression must either be null or a function, not "+typeof superClass);}subClass.prototype=Object.create(superClass&&superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__=superClass;}
 
 var BackHandler=_reactNative.BackHandler||_reactNative.BackAndroid;
@@ -137,10 +137,10 @@ configureScene=function(){var
 children=_this.props.children;
 
 if(children){
-return _reactNative.Navigator.SceneConfigs.FloatFromBottom;
+return _reactNativeDeprecatedCustomComponents.Navigator.SceneConfigs.FloatFromBottom;
 }
 
-return _extends({},_reactNative.Navigator.SceneConfigs.FloatFromBottom,{gestures:{}});
+return _extends({},_reactNativeDeprecatedCustomComponents.Navigator.SceneConfigs.FloatFromBottom,{gestures:{}});
 };_this.
 
 renderScene=function(_ref){var show=_ref.show;
@@ -198,7 +198,7 @@ return null;
 navigatorStyle=this.props.navigatorStyle;
 
 return(
-_react2.default.createElement(_reactNative.Navigator,{
+_react2.default.createElement(_reactNativeDeprecatedCustomComponents.Navigator,{
 ref:function ref(navigator){_this2.navigator=navigator;},
 initialRoute:{show:null},
 configureScene:this.configureScene,
