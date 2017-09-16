@@ -29,7 +29,7 @@
     "react-native-deprecated-custom-components": "^0.1.1"
   },
   "devDependencies": {
-    "react-native-deprecated-custom-components": "^0.1.1",
+    "babel-cli": "^6.26.0",
     "babel-eslint": "^7.1.1",
     "babel-preset-es2016": "^6.24.1",
     "babel-preset-react-native": "^1.9.2",
@@ -40,6 +40,7 @@
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "^6.10.0",
     "flow-bin": "^0.40.0",
+    "react-native-deprecated-custom-components": "^0.1.1",
     "rimraf": "^2.6.1"
   }
 }
