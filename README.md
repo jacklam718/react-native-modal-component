@@ -15,6 +15,8 @@ Pull request are welcomed. Please follow the Airbnb style guide [Airbnb JavaScri
 ##### npm
 `npm install --save react-native-modal-component`
 
+## peerDependencies
+* react-native-deprecated-custom-components >= ^0.1.1
 
 ## Usage with ModalComponent
 ```javascript

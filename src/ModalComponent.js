@@ -3,11 +3,11 @@
 import React, { Component } from 'react';
 import {
   View,
-  Navigator,
   StyleSheet,
   BackAndroid as RNBackAndroid,
   BackHandler as RNBackHandler,
 } from 'react-native';
+import { Navigator } from 'react-native-deprecated-custom-components';
 import Toolbar from 'react-native-toolbar-component';
 
 const BackHandler = RNBackHandler || RNBackAndroid;
